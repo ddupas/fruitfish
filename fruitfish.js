@@ -109,6 +109,33 @@ class FruitFish {
 		return outstr;
 	}
 
+	showleaderboard(interaction) {
+		const serverid = interaction.guild.name;
+		let outstr = '\n```python\n'
+  outstr += '#     FruitMachine Leaderboard - ' + serverid
+  const results = this.players.serverLeaderboard(serverid)
+
+  for (let i = 0; i < results.length; i++) {
+    outstr += '\n' + (i + 1).toString().padStart(3) + ' '
+    outstr += results[i].name.padStart(33, '.') + ' '
+    outstr += results[i].score
+  }
+  // .log('t10: ' + outstr);
+  outstr += '\n```'
+  return outstr
+}
+
+set(interaction) {
+    const whichslot = interaction.parameter.yadayada;
+    let newchar = interaction.parameter.getString();
+    if ((newchar === null) || (newchar.length === 0)) {
+      newchar = emoji.re()
+    }
+    this.settings.setPrize(newchar, whichslot, interaction.guild.name);
+    return message.reply(showprizes(interaction.guild.name));
+}
+
+
 }
 
 const fm = new FruitFish();
