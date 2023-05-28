@@ -63,7 +63,7 @@ INSERT INTO settings (server,value,id) VALUES
 	setPrize(emojii, id, server) {
 		const setPrizeSQL = `UPDATE settings SET value =
     '${emojii}' WHERE id = '${id}' and server = '${server}'`;
-		return this.fmdb.db.prepare(setPrizeSQL).run(emojii, id, server);
+		return this.fmdb.db.exec(setPrizeSQL);
 	}
 
 	getServerPrefix(server) {

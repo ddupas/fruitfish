@@ -126,13 +126,31 @@ class FruitFish {
 }
 
 set(interaction) {
-    const whichslot = interaction.parameter.yadayada;
-    let newchar = interaction.parameter.getString();
+    const prizeslots = ['1','5','10','50','100'];
+    //options.getString('reason') ?? 'No reason provided';
+    const amount = interaction.options.getString('amount');
+    const whichslot = prizeslots.indexOf(amount);
+    let newchar = interaction.options.getString('prize');
+    
     if ((newchar === null) || (newchar.length === 0)) {
       newchar = emoji.re()
     }
     this.settings.setPrize(newchar, whichslot, interaction.guild.name);
-    return message.reply(showprizes(interaction.guild.name));
+    return this.showprizes(interaction);
+}
+
+
+stats (interaction) {   // pid, serverid) {
+	const pid = interaction.member.id;
+	const serverid = interaction.guild.name;
+	const p = this.players.getPlayer(pid, serverid)
+  	let outstr = 'score: ' + p.score + ' high super spin: ' + p.highss +
+    	' prizes: '
+  const curprizes = this.winnings.getPlayerWinnings(serverid, pid)
+  for (const [, value] of Object.entries(curprizes)) {
+    outstr += `${value.prize}`
+  }
+  return outstr
 }
 
 
